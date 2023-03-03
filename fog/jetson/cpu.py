@@ -15,7 +15,6 @@ class CPUProducer(CsvLogging, Producer):
         Producer.__init__(self, loop=loop)
 
     async def receive(self):
-        # better to check the best interval by experimenting
         cpu = str(psutil.cpu_percent())
         return cpu
 
