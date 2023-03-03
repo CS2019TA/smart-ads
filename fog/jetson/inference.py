@@ -7,7 +7,7 @@ from fogverse.util import get_header, numpy_to_base64_url
 class MyStorage (Consumer, ConsumerStorage):
     def __init__(self, keep_messages=False):
         self.consumer_servers = '192.168.1.18'
-        self.consumer_topic = ['input','cpu-utilization']
+        self.consumer_topic = ['fog-input']
         Consumer.__init__(self)
         ConsumerStorage.__init__(self, keep_messages=keep_messages)
 
@@ -24,7 +24,11 @@ class MyProducer (Producer, CsvLogging):
 
     # process your image here
     async def process(self, data):
-        print(data)
+        if (str(data) != ''):
+            print("not null")
+        else:
+            print("null")
+
         return data
 
     async def send(self, data):
