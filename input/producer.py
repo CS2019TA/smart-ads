@@ -1,5 +1,4 @@
 import asyncio
-import numpy as np
 import cv2
 
 from fogverse import ConsumerStorage, Producer, OpenCVConsumer
@@ -24,6 +23,9 @@ class ProducerTemplates(CsvLogging, Producer):
 
     async def receive(self):
         return await self.consumer.get()
+
+    async def process(self, data):
+        return super().process(data)
 
     async def send(self, data):
         key = str(self.frame_idx).encode()
