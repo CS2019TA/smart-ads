@@ -31,10 +31,11 @@ class MyProducer (Producer, CsvLogging):
                 self.producer_topic = 'fog-input'
         else:
             self.forwarded_data = data
+            print(data)
         return (self.forwarded_data)
 
     async def send(self, data):
-        await super().send(data)
+        pass
 
 async def main():
     _Consumer, _Producer = (MyStorage, MyProducer)
