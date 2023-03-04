@@ -4,8 +4,6 @@ charset-normalizer==3.0.1
 confluent-kafka==2.0.2
 contourpy==1.0.7
 cycler==0.11.0
-# Editable Git install with no remote (fogverse==1.0)
--e /Users/WorkPlace/Documents/final_assignment/smart-ads-trial
 fonttools==4.38.0
 idna==3.4
 kafka-python==2.0.2
