@@ -8,8 +8,7 @@ from fogverse.util import get_timestamp_str
 
 class CPUProducer(CsvLogging, Producer):
     def __init__(self, loop=None):
-        self.producer_topic = 'cpu-utilization'
-        # replace with your kafka server IP address
+        self.producer_topic = 'cpu-utilization' # replace with your kafka server IP address
         self.producer_servers = '192.168.1.18:9092'
         self.index = 1
         self.auto_decode = False
