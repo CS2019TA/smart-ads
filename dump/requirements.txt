@@ -1,6 +1,5 @@
 aiokafka==0.8.0
 async-timeout==4.0.2
--e git+git@github.com:CS2019TA/fogverse.git@d2d4e80fcc88b479d1f8ca6ce08c84413a563776#egg=fogverse
 kafka-python==2.0.2
 numpy==1.24.2
 opencv-python==4.7.0.72
