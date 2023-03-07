@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  jetson-pod:
+    image: fxdros/fogverse:cpu-jetson
+    volumes:
+      - ./logs/:/app/logs/
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.75'
+          memory: 2800M
+        reservations:
+          devices:
+            - capabilities: [gpu]
