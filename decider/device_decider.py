@@ -10,7 +10,7 @@ class MyStorage(Consumer, ConsumerStorage):
         Consumer.__init__(self)
         ConsumerStorage.__init__(self)
 
-class MyProducer (Producer, CsvLogging):
+class DeviceDecider (Producer, CsvLogging):
     def __init__(self, consumer, loop=None):
         self.consumer = consumer
         self.producer_topic = 'fog-input'
