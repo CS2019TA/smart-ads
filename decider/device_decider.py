@@ -25,7 +25,7 @@ class DeviceDecider (Producer, CsvLogging):
     async def process(self, data):
         message_topic = self.message.topic
         if (message_topic == 'cpu-utilization'):
-            if (float(data) > 0.0):
+            if (float(data) > 70.0):
                 self.producer_topic = 'preprocess'
             else:
                 self.producer_topic = 'fog-input'
