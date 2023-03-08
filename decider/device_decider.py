@@ -31,11 +31,10 @@ class DeviceDecider (Producer, CsvLogging):
                 self.producer_topic = 'fog-input'
         else:
             self.forwarded_data = data
-            print(data)
         return (self.forwarded_data)
 
     async def send(self, data):
-        pass
+        await super().send(data)
 
 async def main():
     _Consumer, _Producer = (MyStorage, MyProducer)
