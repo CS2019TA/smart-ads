@@ -9,8 +9,8 @@ from fogverse.util import get_timestamp_str
 class CPUProducer(CsvLogging, Producer):
     def __init__(self, loop=None):
         self.producer_topic = 'cpu-utilization' # replace with your kafka server IP address
-        self.producer_servers = '192.168.1.18:9092'
-        self.index = 1
+        self.producer_servers = '192.168.1.9'
+        self.cpu_index = 1
         self.auto_decode = False
         CsvLogging.__init__(self)
         Producer.__init__(self, loop=loop)
@@ -20,12 +20,12 @@ class CPUProducer(CsvLogging, Producer):
         return cpu
 
     async def send(self, data):
-        key = str(self.index).encode()
+        key = str(self.cpu_index).encode()
         headers = [
-            ('index', str(self.index).encode()),
+            ('cpu_index', str(self.cpu_index).encode()),
             ('timestamp', get_timestamp_str().encode())]
         await super().send(data, key=key, headers=headers)
-        self.index += 1
+        self.cpu_index += 1
 
 
 async def main():
