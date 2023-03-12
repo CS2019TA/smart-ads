@@ -25,7 +25,7 @@ class MyAdsDecider(Producer, CsvLogging):
     async def process(self, data):
         data = str(data).replace("\'", "\"")
         inference_dict = json.loads(data)
-        print (self.message.headers)
+        # TODO: implement decision logic
         return ""
 
     async def send(self, data):
