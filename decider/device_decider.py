@@ -14,7 +14,7 @@ class DeviceDecider (Producer, CsvLogging):
     def __init__(self, consumer, loop=None):
         self.consumer = consumer
         self.producer_topic = 'fog-input'
-        self.producer_servers = '192.168.1.18'
+        self.producer_servers = '192.168.1.9'
         self.forwarded_data = ''
         CsvLogging.__init__(self)
         Producer.__init__(self, loop=loop)
@@ -37,7 +37,7 @@ class DeviceDecider (Producer, CsvLogging):
         await super().send(data)
 
 async def main():
-    _Consumer, _Producer = (MyStorage, MyProducer)
+    _Consumer, _Producer = (MyStorage, DeviceDecider)
     consumer = _Consumer()
     producer = _Producer(consumer)
     tasks = [consumer.run(), producer.run()]
