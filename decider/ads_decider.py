@@ -26,12 +26,13 @@ class MyAdsDecider(Producer, CsvLogging):
         data = str(data).replace("\'", "\"")
         inference_dict = json.loads(data)
         # TODO: implement decision logic
-        link = ''
-        if (inference_dict["head"] == 1):
-            link = 'oke'
+        video = ''
+        if (inference_dict["head"] >= 1):
+            video = '1'
         else :
-            link = 'not oke'
-        return link
+            video = '0'
+
+        return video
 
     async def send(self, data):
         headers = self.message.headers
