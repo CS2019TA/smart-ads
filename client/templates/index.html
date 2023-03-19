@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>Hello World</h1>
+    <iframe width="1664" height="625" src="" id="vid-player" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+    </iframe>
+    <button type="button" id="api-call" onclick="getData()">Call REST API</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"
+            integrity="sha512-xbQU0+iHqhVt7VIXi6vBJKPh3IQBF5B84sSHdjKiSccyX/1ZI7Vnkt2/8y8uruj63/DVmCxfUNohPNruthTEQA==" 
+            crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+    <script>
+        const ADS_LIST = [
+          { 'link' : 'https://www.youtube.com/embed/vC8X6uaO8p8?autoplay=1',
+            'duration' : 31000,
+          },
+          {
+            'link' : 'https://www.youtube.com/embed/8eDaSSM_W6I?autoplay=1',
+            'duration' : 61000,
+          },
+          {
+            'link' : 'https://www.youtube.com/embed/x5llixu0lKU?autoplay=1',
+            'duration' : 14000
+          }
+        ]
+        const endpoint = new URL("http://127.0.0.1:8000/consume");
+        async function getData () {
+            const response = await fetch(endpoint);
+            const data = await response.json();
+            const ads = (data == "1" ? ADS_LIST[0] : ADS_LIST[2])
+            document.getElementById("vid-player").src = ads.link
+            setTimeout(getData, ads.duration)
+        }
+    </script>
+  </body>
+</html>
