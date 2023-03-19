@@ -1,4 +1,6 @@
 /venv
+/testing
+/fogverse.egg-info
+
 **/logs
 **/__pycache__
-/fogverse.egg-info
