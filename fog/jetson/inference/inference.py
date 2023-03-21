@@ -4,11 +4,11 @@ import torch
 from fogverse import Producer, Consumer, ConsumerStorage
 from fogverse.logging.logging import CsvLogging
 
-WEIGHT = '/Users/WorkPlace/Documents/final_assignment/yolov5/crowdhuman.pt'
+WEIGHT = './yolov5/crowdhuman.pt'
 
 class MyStorage (Consumer, ConsumerStorage):
     def __init__(self, keep_messages=False):
-        self.consumer_servers = '192.168.1.9'
+        self.consumer_servers = '192.168.1.15'
         self.consumer_topic = ['fog-input']
         Consumer.__init__(self)
         ConsumerStorage.__init__(self, keep_messages=keep_messages)
@@ -17,7 +17,7 @@ class MyFogInference (Producer, CsvLogging):
     def __init__(self, consumer):
         self.consumer = consumer
         self.producer_topic = 'result'
-        self.producer_servers = '192.168.1.9'
+        self.producer_servers = '192.168.1.15'
         self.model = torch.hub.load('ultralytics/yolov5', 'custom', WEIGHT)
         CsvLogging.__init__(self)
         Producer.__init__(self)
