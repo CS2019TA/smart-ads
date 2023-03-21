@@ -1,6 +1,7 @@
 /venv
 /testing
 /fogverse.egg-info
+/yolov5
 
 **/logs
 **/__pycache__
