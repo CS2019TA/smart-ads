@@ -4,7 +4,7 @@ import torch
 from fogverse import Producer, Consumer, ConsumerStorage
 from fogverse.logging.logging import CsvLogging
 
-WEIGHT = './yolov5/crowdhuman.pt'
+WEIGHT = 'crowdhuman.pt'
 
 class MyStorage (Consumer, ConsumerStorage):
     def __init__(self, keep_messages=False):
