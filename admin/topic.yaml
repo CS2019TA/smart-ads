@@ -1,0 +1,58 @@
+server:
+  local_kafka: "192.168.1.15" # input ip address
+  # cloud_kafka: $CLOUD_KAFKA
+
+topic:
+  input:
+    partitions: 1
+    server:
+      - local_kafka
+    config:
+      retention.ms: 2000
+      segment.bytes: 27660000
+      segment.ms: 1200
+
+  cpu-utilization:
+    partitions: 1
+    server:
+      - local_kafka
+    config:
+      retention.ms: 2000
+      segment.bytes: 29200
+      segment.ms: 1200
+
+  fog-input:
+    partitions: 2
+    server:
+      - local_kafka
+    config:
+      retention.ms: 2000
+      segment.bytes: 13830000
+      segment.ms: 1200
+
+  preprocess:
+    partitions: 1
+    server:
+      - local_kafka
+    config:
+      retention.ms: 2000
+      segment.bytes: 27660000
+      segment.ms: 1200
+
+  result:
+    partitions: 1
+    server:
+      - local_kafka
+    config:
+      retention.ms: 2000
+      segment.bytes: 400
+      segment.ms: 1200
+
+  ads:
+    partitions: 1
+    server:
+      - local_kafka
+    config:
+      retention.ms: 2000
+      segment.bytes: 400
+      segment.ms: 1200
