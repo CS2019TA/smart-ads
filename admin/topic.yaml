@@ -8,7 +8,7 @@ topic:
     server:
       - local_kafka
     config:
-      retention.ms: 2000
+      retention.ms: 1000
       segment.bytes: 27660000
       segment.ms: 1200
 
@@ -17,7 +17,7 @@ topic:
     server:
       - local_kafka
     config:
-      retention.ms: 2000
+      retention.ms: 1000
       segment.bytes: 29200
       segment.ms: 1200
 
@@ -26,7 +26,7 @@ topic:
     server:
       - local_kafka
     config:
-      retention.ms: 2000
+      retention.ms: 1000
       segment.bytes: 13830000
       segment.ms: 1200
 
@@ -35,7 +35,7 @@ topic:
     server:
       - local_kafka
     config:
-      retention.ms: 2000
+      retention.ms: 1000
       segment.bytes: 27660000
       segment.ms: 1200
 
@@ -44,7 +44,7 @@ topic:
     server:
       - local_kafka
     config:
-      retention.ms: 2000
+      retention.ms: 1000
       segment.bytes: 400
       segment.ms: 1200
 
@@ -53,6 +53,6 @@ topic:
     server:
       - local_kafka
     config:
-      retention.ms: 2000
+      retention.ms: 1000
       segment.bytes: 400
       segment.ms: 1200
