@@ -4,7 +4,18 @@ import torch
 from fogverse import Producer, Consumer, ConsumerStorage
 from fogverse.logging.logging import CsvLogging
 
-WEIGHT = 'crowdhuman.pt'
+# 0 with docker container
+# 1 without docker container
+
+MODEL = [
+    {
+        "weight" : "yolov5-6.0/crowdhuman6.0.pt",
+        "yolo" : "yolov5-6.0/"
+    },
+    {
+        "weight" : "/home/dionisius/Documents/fogverse/yolov5-6.0/crowdhuman6.0.pt",
+        "yolo" : "/home/dionisius/Documents/fogverse/yolov5-6.0/"
+    }]
 
 class MyStorage (Consumer, ConsumerStorage):
     def __init__(self, keep_messages=False):
@@ -18,7 +29,7 @@ class MyFogInference (Producer, CsvLogging):
         self.consumer = consumer
         self.producer_topic = 'result'
         self.producer_servers = '192.168.1.5'
-        self.model = torch.hub.load('ultralytics/yolov5', 'custom', WEIGHT)
+        self.model = torch.hub.load(MODEL[1]["yolo"], 'custom', path=MODEL[1]["weight"], source='local', device=0, force_reload=True)
         CsvLogging.__init__(self)
         Producer.__init__(self)
 
