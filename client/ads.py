@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from aiokafka import AIOKafkaConsumer
 import asyncio
 
-KAFKA_BOOTSTRAP_SERVERS= "192.168.1.101:9092"
+KAFKA_BOOTSTRAP_SERVERS= "192.168.1.3:9092"
 KAFKA_TOPIC="ads"
 KAFKA_CONSUMER_GROUP="group-id"
 
