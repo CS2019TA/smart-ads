@@ -30,7 +30,8 @@ class MyFogInference (Producer, CsvLogging):
         self.consumer = consumer
         self.producer_topic = 'result'
         self.producer_servers = '192.168.1.3'
-        self.model = torch.hub.load(MODEL[0]["yolo"], 'custom', path=MODEL[0]["weight"], source='local', device=0, force_reload=True)
+        self.model = torch.hub.load(MODEL[0]["yolo"], 'custom', path=MODEL[0]["weight"],
+                                    source='local', device=0, force_reload=True)
         CsvLogging.__init__(self)
         Producer.__init__(self)
 
