@@ -6,5 +6,8 @@ services:
     volumes:
       - ./logs/:/app/logs/
     restart: always
-    cpus: 0.75
-    mem_limit: 500M
+    deploy:
+      resources:
+        limits:
+          cpus: '0.75'
+          memory: 500M
