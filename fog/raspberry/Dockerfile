@@ -1,4 +1,4 @@
-FROM fxdros/fogverse-smart-ads:base-image-cpu
+FROM fxdros/fogverse-smart-ads:preprocess
 
 WORKDIR /app
 COPY fog/raspberry/preprocess.py .
