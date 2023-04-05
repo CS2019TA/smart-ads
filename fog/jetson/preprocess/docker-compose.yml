@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  cloud-pod:
+    image: fxdros/fogverse-smart-ads:preprocess
+    volumes:
+      - ./logs/:/app/logs/
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.75'
+          memory: 500M
