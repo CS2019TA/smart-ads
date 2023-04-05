@@ -5,7 +5,7 @@ from fogverse.logging import CsvLogging
 
 class MyStorage(Consumer, ConsumerStorage):
     def __init__(self):
-        self.consumer_servers = '192.168.1.3'
+        self.consumer_servers = '192.168.1.6'
         self.consumer_topic = ['input', 'cpu-utilization']
         Consumer.__init__(self)
         ConsumerStorage.__init__(self)
@@ -14,7 +14,7 @@ class DeviceDecider (Producer, CsvLogging):
     def __init__(self, consumer, loop=None):
         self.consumer = consumer
         self.producer_topic = 'fog-input'
-        self.producer_servers = '192.168.1.3'
+        self.producer_servers = '192.168.1.6'
         self.forwarded_data = ''
         CsvLogging.__init__(self)
         Producer.__init__(self, loop=loop)
@@ -27,7 +27,6 @@ class DeviceDecider (Producer, CsvLogging):
         if (message_topic == 'cpu-utilization'):
             if (float(data) > 70.0):
                 self.producer_topic = 'preprocess'
-                print('preprocess')
             else:
                 self.producer_topic = 'fog-input'
         else:

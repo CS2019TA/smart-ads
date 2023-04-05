@@ -12,7 +12,7 @@ from fogverse.logging.logging import CsvLogging
 class MyStorage(Consumer, ConsumerStorage):
     def __init__(self, keep_messages=False):
         self.consumer_topic = ['preprocess']
-        self.consumer_servers = '192.168.1.5' #local kafka
+        self.consumer_servers = '192.168.1.6' #local kafka
         self.consumer_conf = {'group_id': "raspberry"}
         Consumer.__init__(self)
         ConsumerStorage.__init__(self, keep_messages=keep_messages)
