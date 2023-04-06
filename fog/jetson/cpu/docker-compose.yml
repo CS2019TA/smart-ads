@@ -11,6 +11,3 @@ services:
         limits:
           cpus: '0.75'
           memory: 2800M
-        reservations:
-          devices:
-            - capabilities: [gpu]
