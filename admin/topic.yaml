@@ -1,6 +1,6 @@
 server:
-  local_kafka: "192.168.1.101" # input ip address
-  # cloud_kafka: $CLOUD_KAFKA
+  local_kafka: "192.168.1.6"
+  cloud_kafka: "192.168.1.5"
 
 topic:
   input:
@@ -22,12 +22,12 @@ topic:
       segment.ms: 1200
 
   fog-input:
-    partitions: 2
+    partitions: 1
     server:
       - local_kafka
     config:
       retention.ms: 1000
-      segment.bytes: 13830000
+      segment.bytes: 27660000
       segment.ms: 1200
 
   preprocess:
@@ -37,6 +37,15 @@ topic:
     config:
       retention.ms: 1000
       segment.bytes: 27660000
+      segment.ms: 1200
+
+  cloud-input:
+    partitions: 1
+    server:
+      - cloud_kafka
+    config:
+      retention.ms: 1000
+      segment.bytes: 9220000
       segment.ms: 1200
 
   result:
