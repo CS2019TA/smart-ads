@@ -11,6 +11,7 @@ class MyStorage(OpenCVConsumer, ConsumerStorage):
         ConsumerStorage.__init__(self)
         self.consumer.set(cv2.CAP_PROP_FRAME_WIDTH, 680)
         self.consumer.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+        self.consumer.set(cv2.CAP_PROP_FPS, 10)
 
 class ProducerTemplates(CsvLogging, Producer):
     def __init__(self, consumer, loop=None):
@@ -37,7 +38,7 @@ class ProducerTemplates(CsvLogging, Producer):
 
 class MyProducer(ProducerTemplates):
     def __init__(self, consumer, loop=None):
-        self.producer_servers = '192.168.1.6'
+        self.producer_servers = '192.168.1.5'
         super().__init__(consumer, loop)
 
 async def main():
