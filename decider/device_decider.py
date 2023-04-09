@@ -27,6 +27,7 @@ class DeviceDecider (Producer, CsvLogging):
         if (message_topic == 'cpu-utilization'):
             if (float(data) > 70.0):
                 self.producer_topic = 'preprocess'
+                print('preprocess')
             else:
                 self.producer_topic = 'fog-input'
         else:
