@@ -1,5 +1,6 @@
 import asyncio
 import torch
+import cv2
 
 from fogverse import Producer, Consumer, ConsumerStorage
 from fogverse.logging.logging import CsvLogging
@@ -21,14 +22,13 @@ class MyStorage (Consumer, ConsumerStorage):
     def __init__(self, keep_messages=False):
         self.consumer_servers = '192.168.1.5' # cloud kafka
         self.consumer_topic = ['cloud-input']
-        self.consumer_conf = {'group_id': "cloud"}
         Consumer.__init__(self)
         ConsumerStorage.__init__(self, keep_messages=keep_messages)
 
 class MyFogInference (Producer, CsvLogging):
     def __init__(self, consumer):
         self.consumer = consumer
-        self.producer_topic = 'result'
+        self.producer_topic = 'cloud-result'
         self.producer_servers = '192.168.1.5' # cloud kafka
         self.model = torch.hub.load(MODEL[1]["yolo"], 'custom', path=MODEL[1]["weight"],
                                     source='local', force_reload=True)
@@ -39,6 +39,15 @@ class MyFogInference (Producer, CsvLogging):
         return await self.consumer.get()
 
     def _process(self, data):
+        # revert preprocess
+        if data.ndim == 2:
+            data = cv2.cvtColor(data, cv2.COLOR_GRAY2RGB)
+
+        # image inference
+        self.model.classes = 1
+        inference_results = self.model(data)
+
+        # get inference result
         self.model.classes = 1
         inference_results = self.model(data)
         try:
