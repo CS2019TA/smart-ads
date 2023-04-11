@@ -1,5 +1,4 @@
 import asyncio
-import json
 
 from fogverse import Producer, Consumer, ConsumerStorage
 from fogverse.logging import CsvLogging
