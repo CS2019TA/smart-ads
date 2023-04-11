@@ -21,7 +21,7 @@ class MyAdsDecider(Producer, CsvLogging):
     async def receive(self):
         return await self.consumer.get()
 
-    async def process(self, data):
+    def _process(self, data):
         data = str(data).replace("\'", "\"")
         inference_dict = json.loads(data)
         video = ''
@@ -31,6 +31,11 @@ class MyAdsDecider(Producer, CsvLogging):
             video = '0'
 
         return video
+
+    async def process(self, data):
+        return await self._loop.run_in_executor(None,
+                                               self._process,
+                                               data)
 
     async def send(self, data):
         self.producer_topic = self.message.topic
