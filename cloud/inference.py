@@ -64,7 +64,6 @@ class MyFogInference (Producer, CsvLogging):
         return final_result
 
     async def process(self, data):
-        print("cloud inference")
         return await self._loop.run_in_executor(None,
                                                self._process,
                                                data)
