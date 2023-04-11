@@ -44,7 +44,7 @@ class ProducerTemplates(CsvLogging, Producer):
 
 class MyProducer(ProducerTemplates):
     def __init__(self, consumer, loop=None):
-        self.producer_servers = '10.5.91.228'
+        self.producer_servers = '192.168.1.18'
         super().__init__(consumer, loop)
 
 async def main():
