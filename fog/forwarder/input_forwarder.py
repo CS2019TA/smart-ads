@@ -11,7 +11,7 @@ class MyStorage(Consumer, ConsumerStorage):
         Consumer.__init__(self)
         ConsumerStorage.__init__(self)
 
-class MyForwarder(Producer, CsvLogging):
+class MyInputForwarder(Producer, CsvLogging):
     def __init__(self, consumer, loop=None):
         self.consumer = consumer
         self.producer_topic = 'cloud-input'
@@ -28,7 +28,7 @@ class MyForwarder(Producer, CsvLogging):
         await super().send(data, headers=headers)
 
 async def main():
-    _Consumer, _Producer = (MyStorage, MyForwarder)
+    _Consumer, _Producer = (MyStorage, MyInputForwarder)
     consumer = _Consumer()
     producer = _Producer(consumer)
     tasks = [consumer.run(), producer.run()]
