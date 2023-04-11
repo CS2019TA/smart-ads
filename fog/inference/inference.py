@@ -1,6 +1,7 @@
 import asyncio
 import torch
 import psutil
+import cv2
 
 from fogverse import Producer, Consumer, ConsumerStorage
 from fogverse.logging.logging import CsvLogging
@@ -21,7 +22,7 @@ class MyStorage (Consumer, ConsumerStorage):
 class MyFogInference (Producer, CsvLogging):
     def __init__(self, consumer):
         self.consumer = consumer
-        self.producer_topic = 'result'
+        self.producer_topic = 'fog-result'
         self.producer_servers = '192.168.1.17'
         self.model = torch.hub.load(MODEL["yolo"], 'custom', path=MODEL["weight"],
                                     source='local', device=0, force_reload=True) # remove 'device=0' to use CPU
@@ -33,21 +34,38 @@ class MyFogInference (Producer, CsvLogging):
 
     def _process(self, data):
         cpu = psutil.cpu_percent()
-        if (cpu > 70.0):
-            print("====================================== exceeded ======================================")
-        self.model.classes = 1
-        inference_results = self.model(data)
-        try:
-            head = inference_results.pandas().xyxy[0].value_counts('name').sort_index()[0]
-        except IndexError:
-            head = 0
+        final_result = ''
 
-        try:
-            person = inference_results.pandas().xyxy[0].value_counts('name').sort_index()[1]
-        except IndexError:
-            person = 0
+        if (cpu > 80.0):
+            self.producer_topic = 'fog-result'
+            self.producer_servers = '192.168.1.17'
 
-        final_result = str({"head" : head, "person" : person})
+            # revert preprocess
+            if data.ndim == 2:
+                data = cv2.cvtColor(data, cv2.COLOR_GRAY2RGB)
+
+            # image inference
+            self.model.classes = 1
+            inference_results = self.model(data)
+
+            # get inference result
+            try:
+                head = inference_results.pandas().xyxy[0].value_counts('name').sort_index()[0]
+            except IndexError:
+                head = 0
+
+            try:
+                person = inference_results.pandas().xyxy[0].value_counts('name').sort_index()[1]
+            except IndexError:
+                person = 0
+
+            final_result = str({"head" : head, "person" : person})
+
+        else:
+            self.producer_topic = 'cloud-input'
+            self.producer_servers = '192.168.1.5' # cloud ip
+            final_result = data
+
         return final_result
 
     async def process(self, data):
