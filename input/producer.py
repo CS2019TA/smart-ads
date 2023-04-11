@@ -25,8 +25,14 @@ class ProducerTemplates(CsvLogging, Producer):
     async def receive(self):
         return await self.consumer.get()
 
+    def _process(self,data):
+        img_resized = cv2.resize(data, (480,640))
+        return cv2.cvtColor(img_resized, cv2.COLOR_RGB2GRAY)
+
     async def process(self, data):
-        return super().process(data)
+        return await self._loop.run_in_executor(None,
+                                               self._process,
+                                               data)
 
     async def send(self, data):
         key = str(self.frame_idx).encode()
@@ -38,7 +44,7 @@ class ProducerTemplates(CsvLogging, Producer):
 
 class MyProducer(ProducerTemplates):
     def __init__(self, consumer, loop=None):
-        self.producer_servers = '192.168.1.100'
+        self.producer_servers = '10.5.91.228'
         super().__init__(consumer, loop)
 
 async def main():
