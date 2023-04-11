@@ -15,7 +15,6 @@ class MyStorage (Consumer, ConsumerStorage):
     def __init__(self, keep_messages=False):
         self.consumer_servers = '192.168.1.17'
         self.consumer_topic = 'input'
-        self.consumer_conf = {'group_id': "jetson"}
         Consumer.__init__(self)
         ConsumerStorage.__init__(self, keep_messages=keep_messages)
 
@@ -60,7 +59,7 @@ class MyFogInference (Producer, CsvLogging):
             final_result = str({"head" : head, "person" : person})
 
         else:
-            self.producer_topic = 'cloud-input'
+            self.producer_topic = 'forward'
             final_result = data
 
         return final_result
