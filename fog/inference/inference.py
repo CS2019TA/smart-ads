@@ -22,8 +22,8 @@ class MyStorage (Consumer, ConsumerStorage):
 class MyFogInference (Producer, CsvLogging):
     def __init__(self, consumer):
         self.consumer = consumer
-        self.producer_topic = 'cloud-input'
-        self.producer_servers = '192.168.1.5'
+        self.producer_topic = 'fog-result'
+        self.producer_servers = '192.168.1.17'
         self.model = torch.hub.load(MODEL["yolo"], 'custom', path=MODEL["weight"],
                                     source='local', device=0, force_reload=True) # remove 'device=0' to use CPU
         CsvLogging.__init__(self)
@@ -37,9 +37,6 @@ class MyFogInference (Producer, CsvLogging):
         final_result = ''
 
         if (cpu < 60.0):
-            self.producer_topic = 'fog-result'
-            self.producer_servers = '192.168.1.17'
-
             # revert preprocess
             data = cv2.cvtColor(data, cv2.COLOR_GRAY2RGB)
 
@@ -61,8 +58,6 @@ class MyFogInference (Producer, CsvLogging):
             final_result = str({"head" : head, "person" : person})
 
         else:
-            self.producer_topic = 'cloud-input'
-            self.producer_servers = '192.168.1.5' # cloud ip
             final_result = data
 
         return final_result
@@ -73,6 +68,14 @@ class MyFogInference (Producer, CsvLogging):
                                                data)
 
     async def send(self, data):
+        cpu = psutil.cpu_percent()
+        if (cpu < 60.0):
+            self.producer_topic = 'fog-result'
+            self.producer_servers = '192.168.1.17' # fog kafka ip
+        else :
+            self.producer_topic = 'cloud-input'
+            self.producer_servers = '192.168.1.5' # cloud kafka ip
+
         headers = self.message.headers
         await super().send(data, headers=headers)
 
