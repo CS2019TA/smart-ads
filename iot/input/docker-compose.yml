@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  cloud-pod:
+  input-pod:
     image: fxdros/fogverse-smart-ads:input-jetson
     volumes:
       - ./logs/:/app/logs/
@@ -11,3 +11,5 @@ services:
         limits:
           cpus: '0.75'
           memory: 500M
+    devices:
+      - /dev/video0:/dev/video0
