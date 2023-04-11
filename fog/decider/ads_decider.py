@@ -22,15 +22,18 @@ class MyAdsDecider(Producer, CsvLogging):
         return await self.consumer.get()
 
     def _process(self, data):
-        data = str(data).replace("\'", "\"")
-        inference_dict = json.loads(data)
-        video = ''
-        if (inference_dict["head"] >= 1):
-            video = '1'
-        else :
-            video = '0'
+        if (len(data) > 1):
+            video = ''
+            stripped_data = str(data).replace("\'", "\"")
+            inference_dict = json.loads(stripped_data)
+            if (inference_dict["head"] >= 1):
+                video = '1'
+            else :
+                video = '0'
 
-        return video
+            return video
+
+        return data
 
     async def process(self, data):
         return await self._loop.run_in_executor(None,
