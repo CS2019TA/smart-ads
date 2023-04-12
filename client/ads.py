@@ -22,9 +22,9 @@ async def consume():
     await consumer.start()
     try:
         async for msg in consumer:
-            print(msg)
             data["ads"] = str(msg.value)[2:3]
             data["timestamp"] = msg.headers[1][1].decode('utf-8')
+            data["topic"] = str(msg.topic)
 
     finally:
         await consumer.stop()
