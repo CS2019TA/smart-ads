@@ -2,9 +2,9 @@ from fastapi import APIRouter
 from aiokafka import AIOKafkaConsumer
 import asyncio
 
-KAFKA_BOOTSTRAP_SERVERS= "192.168.1.17:9092"
-KAFKA_TOPIC='fog-result'
-KAFKA_CONSUMER_GROUP="client"
+KAFKA_BOOTSTRAP_SERVERS= "10.5.95.175:9092"
+KAFKA_TOPIC= ["fog-result", "cloud-result"]
+KAFKA_CONSUMER_GROUP= "client"
 
 loop = asyncio.get_event_loop()
 route = APIRouter()
@@ -17,8 +17,8 @@ async def show_data():
 
 async def consume():
     global data
-    consumer = AIOKafkaConsumer(KAFKA_TOPIC, loop=loop,
-                                bootstrap_servers=KAFKA_BOOTSTRAP_SERVERS, group_id=KAFKA_CONSUMER_GROUP)
+    consumer = AIOKafkaConsumer(loop=loop, bootstrap_servers=KAFKA_BOOTSTRAP_SERVERS, group_id=KAFKA_CONSUMER_GROUP)
+    consumer.subscribe(KAFKA_TOPIC)
     await consumer.start()
     try:
         async for msg in consumer:
