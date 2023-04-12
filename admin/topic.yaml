@@ -1,6 +1,6 @@
 server:
-  local_kafka: "" # fog/local kafka ip address
-  cloud_kafka: "" # cloud kafka ip address
+  local_kafka: "10.5.95.175" # fog/local kafka ip address
+  cloud_kafka: "34.101.54.220" # cloud kafka ip address
 
 topic:
   input:
