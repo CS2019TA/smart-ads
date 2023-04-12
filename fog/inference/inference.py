@@ -35,7 +35,7 @@ class MyFogInference (Producer, CsvLogging):
         cpu = psutil.cpu_percent()
         final_result = ''
 
-        if (cpu < 60.0):
+        if (cpu < 80.0):
             self.producer_topic = 'fog-result'
 
             # revert preprocess
