@@ -40,8 +40,7 @@ class MyFogInference (Producer, CsvLogging):
 
     def _process(self, data):
         # revert preprocess
-        if data.ndim == 2:
-            data = cv2.cvtColor(data, cv2.COLOR_GRAY2RGB)
+        data = cv2.resize(data, None, fx=2, fy=2)
 
         # image inference
         self.model.classes = 1
