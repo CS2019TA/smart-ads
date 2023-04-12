@@ -13,7 +13,7 @@ MODEL = {
 
 class MyStorage (Consumer, ConsumerStorage):
     def __init__(self, keep_messages=False):
-        self.consumer_servers = '10.5.95.175:9092'
+        self.consumer_servers = '10.5.95.175'
         self.consumer_topic = 'input'
         Consumer.__init__(self)
         ConsumerStorage.__init__(self, keep_messages=keep_messages)
@@ -22,7 +22,7 @@ class MyFogInference (Producer, CsvLogging):
     def __init__(self, consumer):
         self.consumer = consumer
         self.producer_topic = 'fog-result'
-        self.producer_servers = '10.5.95.175:9092'
+        self.producer_servers = '10.5.95.175'
         self.model = torch.hub.load(MODEL["yolo"], 'custom', path=MODEL["weight"],
                                     source='local', device=0, force_reload=True) # remove 'device=0' to use CPU
         CsvLogging.__init__(self)
