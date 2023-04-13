@@ -8,15 +8,10 @@ from fogverse.logging.logging import CsvLogging
 # 0 with docker container
 # 1 without docker container
 
-MODEL = [
-    {
+MODEL = {
         "weight" : "yolov5-6.0/crowdhuman6.0.pt",
         "yolo" : "yolov5-6.0/"
-    },
-    {
-        "weight" : "/Users/WorkPlace/Documents/final_assignment/smart-ads-trial/yolov5-6.0/crowdhuman6.0.pt",
-        "yolo" : "/Users/WorkPlace/Documents/final_assignment/smart-ads-trial/yolov5-6.0/"
-    }]
+        }
 
 class MyStorage (Consumer, ConsumerStorage):
     def __init__(self, keep_messages=False):
@@ -30,7 +25,7 @@ class MyFogInference (Producer, CsvLogging):
         self.consumer = consumer
         self.producer_topic = 'cloud-result'
         self.producer_servers = '0.0.0.0' # cloud kafka
-        self.model = torch.hub.load(MODEL[0]["yolo"], 'custom', path=MODEL[1]["weight"],
+        self.model = torch.hub.load(MODEL["yolo"], 'custom', path=MODEL["weight"],
                                     source='local', force_reload=True)
         CsvLogging.__init__(self)
         Producer.__init__(self)
