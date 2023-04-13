@@ -21,3 +21,4 @@ tensorboard
 seaborn
 pytz
 six
+numba
