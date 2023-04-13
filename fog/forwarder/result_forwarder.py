@@ -13,7 +13,7 @@ class MyStorage(Consumer, ConsumerStorage):
 class MyInputForwarder(Producer, CsvLogging):
     def __init__(self, consumer, loop=None):
         self.consumer = consumer
-        self.producer_servers = '192.168.1.4' # fog kafka ip address
+        self.producer_servers = '0.0.0.0' # fog kafka ip address
         CsvLogging.__init__(self)
         Producer.__init__(self, loop=loop)
 

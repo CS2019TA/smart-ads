@@ -5,7 +5,7 @@ from fogverse.logging import CsvLogging
 
 class MyStorage(Consumer, ConsumerStorage):
     def __init__(self):
-        self.consumer_servers = '192.168.1.4' # fog kafka ip address
+        self.consumer_servers = '0.0.0.0' # fog kafka ip address
         self.consumer_topic = 'forward'
         Consumer.__init__(self)
         ConsumerStorage.__init__(self)
