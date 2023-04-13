@@ -3,6 +3,7 @@ import json
 
 from fogverse import Producer, Consumer, ConsumerStorage
 from fogverse.logging import CsvLogging
+from numba import jit, cuda
 
 class MyStorage(Consumer, ConsumerStorage):
     def __init__(self):
@@ -21,6 +22,7 @@ class MyAdsDecider(Producer, CsvLogging):
     async def receive(self):
         return await self.consumer.get()
 
+    @jit(target_backend = 'cuda')
     def _process(self, data):
         if (len(data) > 1):
             video = ''
