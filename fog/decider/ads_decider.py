@@ -6,7 +6,7 @@ from fogverse.logging import CsvLogging
 
 class MyStorage(Consumer, ConsumerStorage):
     def __init__(self):
-        self.consumer_servers = '0.0.0.0'
+        self.consumer_servers = '192.168.1.4'
         self.consumer_topic = ['fog-result', 'cloud-result']
         Consumer.__init__(self)
         ConsumerStorage.__init__(self)
@@ -14,7 +14,7 @@ class MyStorage(Consumer, ConsumerStorage):
 class MyAdsDecider(Producer, CsvLogging):
     def __init__(self, consumer, loop=None):
         self.consumer = consumer
-        self.producer_servers = '0.0.0.0'
+        self.producer_servers = '192.168.1.4'
         CsvLogging.__init__(self)
         Producer.__init__(self, loop=loop)
 
