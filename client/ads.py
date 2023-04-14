@@ -1,9 +1,11 @@
+import asyncio
+import json
+
 from fastapi import APIRouter
 from aiokafka import AIOKafkaConsumer
-import asyncio
 
-KAFKA_BOOTSTRAP_SERVERS= "10.5.95.175:9092"
-KAFKA_TOPIC= ["fog-result", "cloud-result"]
+KAFKA_BOOTSTRAP_SERVERS= "0.0.0.0"
+KAFKA_TOPIC= "ads"
 KAFKA_CONSUMER_GROUP= "client"
 
 loop = asyncio.get_event_loop()
@@ -17,14 +19,15 @@ async def show_data():
 
 async def consume():
     global data
-    consumer = AIOKafkaConsumer(loop=loop, bootstrap_servers=KAFKA_BOOTSTRAP_SERVERS, group_id=KAFKA_CONSUMER_GROUP)
-    consumer.subscribe(KAFKA_TOPIC)
+    consumer = AIOKafkaConsumer(KAFKA_TOPIC, loop=loop, bootstrap_servers=KAFKA_BOOTSTRAP_SERVERS,
+                                group_id=KAFKA_CONSUMER_GROUP)
     await consumer.start()
     try:
         async for msg in consumer:
-            data["ads"] = str(msg.value)[2:3]
+            message = json.loads(msg.value.decode("utf-8").replace("\'", "\""))
+            data["ads"] = message["video"]
+            data["topic"] = message["topic"]
             data["timestamp"] = msg.headers[1][1].decode('utf-8')
-            data["topic"] = str(msg.topic)
 
     finally:
         await consumer.stop()
