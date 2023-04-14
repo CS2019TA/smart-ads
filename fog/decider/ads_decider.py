@@ -14,6 +14,7 @@ class MyStorage(Consumer, ConsumerStorage):
 class MyAdsDecider(Producer, CsvLogging):
     def __init__(self, consumer, loop=None):
         self.consumer = consumer
+        self.producer_topic = "ads"
         self.producer_servers = '192.168.1.4'
         CsvLogging.__init__(self)
         Producer.__init__(self, loop=loop)
@@ -22,16 +23,19 @@ class MyAdsDecider(Producer, CsvLogging):
         return await self.consumer.get()
 
     def _process(self, data):
-        if (len(data) > 1):
-            video = ''
+        # prevent false data read
+        if (data[2:7] != "topic"):
+            advertisement = {}
+            advertisement["topic"] = self.message.topic
+
             stripped_data = str(data).replace("\'", "\"")
             inference_dict = json.loads(stripped_data)
             if (inference_dict["head"] >= 1 or inference_dict["person"] >= 1):
-                video = '1'
+                advertisement["video"] = '1'
             else :
-                video = '0'
+                advertisement["video"] = '0'
 
-            return video
+            return str(advertisement)
 
         return data
 
@@ -41,7 +45,6 @@ class MyAdsDecider(Producer, CsvLogging):
                                                data)
 
     async def send(self, data):
-        self.producer_topic = self.message.topic
         headers = self.message.headers
         await super().send(data, headers=headers)
 
