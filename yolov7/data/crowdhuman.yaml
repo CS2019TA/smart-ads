@@ -1,0 +1,14 @@
+# crowdhuman.yaml
+
+train: 'D:/File-Ngoding/TA/CrowdHuman Dataset/crowdhuman-640x640/images/train'
+# val: 'D:/File-Ngoding/TA/CrowdHuman Dataset/crowdhuman-640x640/images/val'
+# val: 'D:/File-Ngoding/TA/CrowdHuman Dataset/yolo7-640/test/images'
+val: 'D:/File-Ngoding/TA/CrowdHuman Dataset/robo960/test/images'
+#path to your data train.txt or test.txt
+#(also both them are in the same folder,that dosen't matter)
+
+nc: 2
+names:
+  0: head
+  1: person
+#you can also change this classess
