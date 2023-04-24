@@ -31,6 +31,7 @@ class MyFogInference (Producer, CsvLogging):
         self.consumer = consumer
         self.producer_topic = 'fog-result'
         self.producer_servers = '0.0.0.0'
+        self.counter = 0
         self.model = torch.hub.load(MODEL[0]["yolo"], 'custom', MODEL[0]["weight"],
                                     source='local', device=0, force_reload=True) # remove 'device=0' to use CPU
         CsvLogging.__init__(self)
@@ -43,7 +44,23 @@ class MyFogInference (Producer, CsvLogging):
         cpu = psutil.cpu_percent()
         final_result = ''
 
-        if (cpu < 80.0):
+        if (cpu < 70.0):
+            final_result = self.inference(data)
+
+        else:
+            if (self.counter % 2 == 0):
+                self.producer_topic = 'forward'
+                final_result = data
+                self.counter += 1
+
+            else:
+                final_result = self.inference(data)
+                self.counter = 0
+
+        return final_result
+
+    def inference(self, data):
+            final_result = ''
             self.producer_topic = 'fog-result'
 
             # revert preprocess
@@ -65,11 +82,9 @@ class MyFogInference (Producer, CsvLogging):
 
             final_result = str({"head" : head, "person" : person})
 
-        else:
-            self.producer_topic = 'forward'
-            final_result = data
+            return final_result
 
-        return final_result
+
 
     async def process(self, data):
         return await self._loop.run_in_executor(None,
