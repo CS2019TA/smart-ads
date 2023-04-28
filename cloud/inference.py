@@ -8,7 +8,7 @@ from fogverse.logging.logging import CsvLogging
 dir = "/home/dionisius_baskoro/smart-ads"
 
 MODEL = [{
-        "weight" : f"{dir}/yolov5-6.0/crowdhuman6.0.pt",
+        "weight" : f"{dir}/yolov5-6.0/yolo5-crowdhuman.pt",
         "yolo" : f"{dir}/yolov5-6.0/"
         },
         {
