@@ -4,7 +4,7 @@ server:
 
 topic:
   input:
-    partitions: 1
+    partitions: 2
     server:
       - local_kafka
     config:
