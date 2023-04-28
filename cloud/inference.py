@@ -5,17 +5,22 @@ import cv2
 from fogverse import Producer, Consumer, ConsumerStorage
 from fogverse.logging.logging import CsvLogging
 
-# 0 with docker container
-# 1 without docker container
-
-MODEL = {
-        "weight" : "yolov5-6.0/crowdhuman6.0.pt",
-        "yolo" : "yolov5-6.0/"
-        }
+MODEL = [{
+        "weight" : "../yolov5-6.0/crowdhuman6.0.pt",
+        "yolo" : "../yolov5-6.0/"
+        },
+        {
+        "weight" : "../yolov7/yolo7-crowdhuman.pt",
+        "yolo" : "../yolov7/"
+        },
+        {
+        "weight" : "../yolov7/yolo7tiny-crowdhuman.pt",
+        "yolo" : "../yolov7/"
+        }]
 
 class MyStorage (Consumer, ConsumerStorage):
     def __init__(self, keep_messages=False):
-        self.consumer_servers = '0.0.0.0' # cloud kafka
+        self.consumer_servers = '10.184.0.4' # cloud kafka
         self.consumer_topic = ['cloud-input']
         Consumer.__init__(self)
         ConsumerStorage.__init__(self, keep_messages=keep_messages)
@@ -24,8 +29,8 @@ class MyFogInference (Producer, CsvLogging):
     def __init__(self, consumer):
         self.consumer = consumer
         self.producer_topic = 'cloud-result'
-        self.producer_servers = '0.0.0.0' # cloud kafka
-        self.model = torch.hub.load(MODEL["yolo"], 'custom', path=MODEL["weight"],
+        self.producer_servers = '10.184.0.4' # cloud kafka
+        self.model = torch.hub.load(MODEL[0]["yolo"], 'custom', MODEL[0]["weight"],
                                     source='local', force_reload=True)
         CsvLogging.__init__(self)
         Producer.__init__(self)
