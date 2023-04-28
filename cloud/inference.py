@@ -5,17 +5,19 @@ import cv2
 from fogverse import Producer, Consumer, ConsumerStorage
 from fogverse.logging.logging import CsvLogging
 
+dir = "/home/dionisius_baskoro/smart-ads"
+
 MODEL = [{
-        "weight" : "/yolov5-6.0/crowdhuman6.0.pt",
-        "yolo" : "/yolov5-6.0/"
+        "weight" : f"{dir}/yolov5-6.0/crowdhuman6.0.pt",
+        "yolo" : f"{dir}/yolov5-6.0/"
         },
         {
-        "weight" : "/yolov7/yolo7-crowdhuman.pt",
-        "yolo" : "/yolov7/"
+        "weight" : f"{dir}/yolov7/yolo7-crowdhuman.pt",
+        "yolo" : f"{dir}/yolov7/"
         },
         {
-        "weight" : "/yolov7/yolo7tiny-crowdhuman.pt",
-        "yolo" : "/yolov7/"
+        "weight" : f"{dir}/yolov7/yolo7tiny-crowdhuman.pt",
+        "yolo" : f"{dir}/yolov7/"
         }]
 
 class MyStorage (Consumer, ConsumerStorage):
