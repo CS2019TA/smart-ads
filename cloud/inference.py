@@ -6,16 +6,16 @@ from fogverse import Producer, Consumer, ConsumerStorage
 from fogverse.logging.logging import CsvLogging
 
 MODEL = [{
-        "weight" : "../yolov5-6.0/crowdhuman6.0.pt",
-        "yolo" : "../yolov5-6.0/"
+        "weight" : "/yolov5-6.0/crowdhuman6.0.pt",
+        "yolo" : "/yolov5-6.0/"
         },
         {
-        "weight" : "../yolov7/yolo7-crowdhuman.pt",
-        "yolo" : "../yolov7/"
+        "weight" : "/yolov7/yolo7-crowdhuman.pt",
+        "yolo" : "/yolov7/"
         },
         {
-        "weight" : "../yolov7/yolo7tiny-crowdhuman.pt",
-        "yolo" : "../yolov7/"
+        "weight" : "/yolov7/yolo7tiny-crowdhuman.pt",
+        "yolo" : "/yolov7/"
         }]
 
 class MyStorage (Consumer, ConsumerStorage):
