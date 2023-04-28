@@ -2,6 +2,7 @@ FROM fxdros/fogverse-smart-ads:base-image
 
 RUN --mount=type=cache,target=/var/cache/apt_update apt update \
     && apt install -y --no-install-recommends \
+    v4l-utils \
     libssl-dev \
     zlib1g-dev \
     curl \
