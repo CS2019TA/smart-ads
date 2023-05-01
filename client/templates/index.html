@@ -29,16 +29,9 @@
         async function getData () {
             const response = await fetch(endpoint);
             const data = await response.json();
-            appendDelay(data.timestamp)
+            appendDelay(data.latency)
             setVideo(data.ads)
             appendTopic(data.topic)
-        }
-
-        const getTimeDifference = (timestamp) => {
-          const creationTime = new Date(timestamp).getTime() + (7*60*60*1000)
-          const currentTime = Date.now()
-          const timeDifference = (currentTime - creationTime)
-          return timeDifference
         }
 
         const setVideo = (index) => {
@@ -47,10 +40,10 @@
           setTimeout(getData, ads.duration)
         }
 
-        const appendDelay = (timestamp) => {
+        const appendDelay = (latency) => {
           const span = document.getElementById("delay")
-          const delayTime = getTimeDifference(timestamp)
-          const text = document.createTextNode(`${delayTime}ms`);
+          const time_delay = Math.round(latency*1000)/1
+          const text = document.createTextNode(`${time_delay}ms`);
           span.textContent = '';
           span.appendChild(text);
         }
