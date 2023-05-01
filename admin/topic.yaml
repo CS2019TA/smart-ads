@@ -1,10 +1,10 @@
 server:
-  local_kafka: "10.119.81.52" # fog/local kafka ip address
-  cloud_kafka: "34.101.83.51" # cloud kafka ip address
+  local_kafka: "192.168.1.20" # fog/local kafka ip address
+  cloud_kafka: "34.101.135.171" # cloud kafka ip address
 
 topic:
   input:
-    partitions: 2
+    partitions: 1
     server:
       - local_kafka
     config:
@@ -18,7 +18,7 @@ topic:
       - local_kafka
     config:
       retention.ms: 2000
-      segment.bytes: 27660000
+      segment.bytes: 1000
       segment.ms: 1200
 
   forward:
@@ -46,5 +46,14 @@ topic:
       - cloud_kafka
     config:
       retention.ms: 2000
-      segment.bytes: 9220000
+      segment.bytes: 1000
+      segment.ms: 1200
+
+  ads:
+    partitions: 1
+    server:
+      - local_kafka
+    config:
+      retention.ms: 2000
+      segment.bytes: 1000
       segment.ms: 1200
