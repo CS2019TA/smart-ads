@@ -29,7 +29,7 @@
         async function getData () {
             const response = await fetch(endpoint);
             const data = await response.json();
-            appendDelay(data.latency)
+            appendDelay(data.timestamp)
             setVideo(data.ads)
             appendTopic(data.topic)
         }
@@ -40,10 +40,25 @@
           setTimeout(getData, ads.duration)
         }
 
-        const appendDelay = (latency) => {
+        // source : https://github.com/fogverse/live-yolov5/blob/main/client/templates/index.html
+        const convertTZ = (date, tzString) => {
+          if (typeof date === 'string') {
+            return new Date(date)
+          } else {
+            _date = date.toLocaleString("en-US", {timeZone: tzString})
+            return new Date(_date)
+          }
+        }
+
+        const appendDelay = (timestamp) => {
+          const tsCreated = convertTZ(timestamp);
+          const now = new Date();
+          // tsCreatedVal.text(tsCreated.toISOString());
+          // tsNowVal.text(now.toISOString());
+          const delay = Math.abs(now - tsCreated - (7*60*60*1000));
+
           const span = document.getElementById("delay")
-          const time_delay = Math.round(latency*1000)/1
-          const text = document.createTextNode(`${time_delay}ms`);
+          const text = document.createTextNode(`${delay} ms`);
           span.textContent = '';
           span.appendChild(text);
         }
