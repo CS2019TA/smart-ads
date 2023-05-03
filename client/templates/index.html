@@ -3,7 +3,7 @@
   <body>
     <h1>Delay: <span id="delay"></span></h1>
     <h1>Topic: <span id="topic"></span></h1>
-    <iframe width="1664" height="625" src="" id="vid-player" frameborder="0"
+    <iframe width="1280" height="720" src="" id="vid-player" frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
     </iframe>
     <button type="button" id="api-call" onclick="getData()">Call REST API</button>
@@ -13,29 +13,30 @@
     </script>
     <script>
         const ADS_LIST = [
-          { 'link' : 'https://www.youtube.com/embed/vC8X6uaO8p8?autoplay=1',
+          { 'link' : '/Users/WorkPlace/Documents/final_assignment/ads/Kelebihan Kartu Jelajah Berganda (Multi Trip) MRT Jakarta.mp4',
             'duration' : 31000,
           },
           {
-            'link' : 'https://www.youtube.com/embed/8eDaSSM_W6I?autoplay=1',
-            'duration' : 61000,
+            'link' : '/Users/WorkPlace/Documents/final_assignment/ads/Hal yang Perlu Dilakukan Saat Terjadi Keadaan Darurat di MRT Jakarta.mp4',
+            'duration' : 78000,
           },
           {
-            'link' : 'https://www.youtube.com/embed/x5llixu0lKU?autoplay=1',
-            'duration' : 14000
+            'link' : '/Users/WorkPlace/Documents/final_assignment/ads/Panduan Perilaku di Transportasi Publik.mp4',
+            'duration' : 61000
           }
         ]
         const endpoint = new URL("http://127.0.0.1:8000/consume");
         async function getData () {
             const response = await fetch(endpoint);
             const data = await response.json();
+            console.log(data)
             appendDelay(data.timestamp)
             setVideo(data.ads)
             appendTopic(data.topic)
         }
 
         const setVideo = (index) => {
-          const ads = (index == "1" ? ADS_LIST[0] : ADS_LIST[2])
+          const ads = (index == "2" ? ADS_LIST[2] : (index == "1" ? ADS_LIST[1] : ADS_LIST[0]))
           document.getElementById("vid-player").src = ads.link
           setTimeout(getData, ads.duration)
         }
