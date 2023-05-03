@@ -33,7 +33,7 @@ class MyFogInference (Producer, CsvLogging):
         self.producer_servers = '0.0.0.0'
         self.counter = 0
         self.model = torch.hub.load(MODEL[0]["yolo"], 'custom', MODEL[0]["weight"],
-                                    source='local', device=0, force_reload=True) # remove 'device=0' to use CPU
+                                    source='local', force_reload=True)
         CsvLogging.__init__(self)
         Producer.__init__(self)
 
