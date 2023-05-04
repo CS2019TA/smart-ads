@@ -27,7 +27,7 @@ class MyStorage (Consumer, ConsumerStorage):
         Consumer.__init__(self)
         ConsumerStorage.__init__(self, keep_messages=keep_messages)
 
-class MyFogInference (Producer, CsvLogging):
+class MyCloudInference (Producer, CsvLogging):
     def __init__(self, consumer):
         self.consumer = consumer
         self.producer_topic = 'cloud-result'
@@ -76,7 +76,7 @@ class MyFogInference (Producer, CsvLogging):
         await super().send(data, headers=headers)
 
 async def main():
-    _Consumer, _Producer = (MyStorage, MyFogInference)
+    _Consumer, _Producer = (MyStorage, MyCloudInference)
     consumer = _Consumer()
     producer = _Producer(consumer)
     tasks = [consumer.run(), producer.run()]
