@@ -7,11 +7,15 @@
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
     </iframe>
     <button type="button" id="api-call" onclick="getData()">Call REST API</button>
+    <button type="button" id="get-csv" onclick="getCsv()">Get Latency CSV</button>
+    <script src="https://cdn.jsdelivr.net/npm/json2csv"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"
-            integrity="sha512-xbQU0+iHqhVt7VIXi6vBJKPh3IQBF5B84sSHdjKiSccyX/1ZI7Vnkt2/8y8uruj63/DVmCxfUNohPNruthTEQA==" 
+            integrity="sha512-xbQU0+iHqhVt7VIXi6vBJKPh3IQBF5B84sSHdjKiSccyX/1ZI7Vnkt2/8y8uruj63/DVmCxfUNohPNruthTEQA=="
             crossorigin="anonymous" referrerpolicy="no-referrer">
     </script>
     <script>
+        const latency = []
+
         const ADS_LIST = [
           { 'link' : '/Users/WorkPlace/Documents/final_assignment/ads/Kelebihan Kartu Jelajah Berganda (Multi Trip) MRT Jakarta.mp4',
             'duration' : 31000,
@@ -25,14 +29,21 @@
             'duration' : 61000
           }
         ]
+
         const endpoint = new URL("http://127.0.0.1:8000/consume");
         async function getData () {
+            const latency_data = {"topic" : '', "timestamp" : '', "latency" : ''}
             const response = await fetch(endpoint);
             const data = await response.json();
-            console.log(data)
+
+            latency_data.topic = data.topic
+            latency_data.timestamp = data.timestamp
+            latency_data.latency = getDelay(data.timestamp)
+
             appendDelay(data.timestamp)
             setVideo(data.ads)
             appendTopic(data.topic)
+            latency.push(latency_data)
         }
 
         const setVideo = (index) => {
@@ -51,13 +62,16 @@
           }
         }
 
-        const appendDelay = (timestamp) => {
+        const getDelay = (timestamp) => {
           const tsCreated = convertTZ(timestamp);
           const now = new Date();
-          // tsCreatedVal.text(tsCreated.toISOString());
-          // tsNowVal.text(now.toISOString());
           const delay = Math.abs(now - tsCreated - (7*60*60*1000));
 
+          return delay;
+        }
+
+        const appendDelay = (timestamp) => {
+          const delay = getDelay(timestamp)
           const span = document.getElementById("delay")
           const text = document.createTextNode(`${delay} ms`);
           span.textContent = '';
@@ -70,6 +84,26 @@
           span.textContent = '';
           span.appendChild(text)
         }
+
+        // source: https://dcode.domenade.com/tutorials/easiest-way-to-export-csv-file-in-javascript
+        const btnDownloadCsv = document.getElementById("get-csv");
+
+        btnDownloadCsv.addEventListener("click", () => {
+          getCsv("latency.csv", json2csv.parse(latency));
+        });
+
+        const getCsv = (filename, csvData) => {
+          const element = document.createElement("a");
+
+          element.setAttribute("href", `data:text/csv;charset=utf-8,${csvData}`);
+          element.setAttribute("download", filename);
+          element.style.display = "none";
+
+          document.body.appendChild(element);
+          element.click();
+          document.body.removeChild(element);
+        }
+
     </script>
   </body>
 </html>
