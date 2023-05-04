@@ -4,7 +4,7 @@ import json
 from fastapi import APIRouter
 from aiokafka import AIOKafkaConsumer
 
-KAFKA_BOOTSTRAP_SERVERS= "10.119.81.52"
+KAFKA_BOOTSTRAP_SERVERS= "192.168.1.22"
 KAFKA_TOPIC= "ads"
 KAFKA_CONSUMER_GROUP= "client"
 
