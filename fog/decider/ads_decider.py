@@ -6,7 +6,7 @@ from fogverse.logging import CsvLogging
 
 class MyStorage(Consumer, ConsumerStorage):
     def __init__(self):
-        self.consumer_servers = '10.119.81.52'
+        self.consumer_servers = '192.168.1.22'
         self.consumer_topic = ['fog-result', 'cloud-result']
         Consumer.__init__(self)
         ConsumerStorage.__init__(self)
@@ -15,7 +15,7 @@ class MyAdsDecider(Producer, CsvLogging):
     def __init__(self, consumer, loop=None):
         self.consumer = consumer
         self.producer_topic = "ads"
-        self.producer_servers = '10.119.81.52'
+        self.producer_servers = '192.168.1.22'
         CsvLogging.__init__(self)
         Producer.__init__(self, loop=loop)
 
@@ -31,9 +31,9 @@ class MyAdsDecider(Producer, CsvLogging):
             stripped_data = str(data).replace("\'", "\"")
             inference_dict = json.loads(stripped_data)
 
-            if (inference_dict["head"] >= 13 or inference_dict["person"] >= 13):
+            if (inference_dict["head"] >= 10 or inference_dict["person"] >= 10):
                 advertisement["video"] = '2'
-            elif (inference_dict["head"] >= 7 or inference_dict["person"] >= 7):
+            elif (inference_dict["head"] >= 5 or inference_dict["person"] >= 5):
                 advertisement["video"] = '1'
             else :
                 advertisement["video"] = '0'
