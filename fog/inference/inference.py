@@ -2,6 +2,8 @@ import asyncio
 import torch
 import psutil
 import cv2
+import csv
+import datetime
 
 from fogverse import Producer, Consumer, ConsumerStorage
 from fogverse.logging.logging import CsvLogging
@@ -36,6 +38,10 @@ class MyFogInference (Producer, CsvLogging):
                                     source='local', force_reload=True)
         CsvLogging.__init__(self)
         Producer.__init__(self)
+
+        with open('inference_result.csv', 'a', encoding='UTF8') as f:
+            writer = csv.writer(f)
+            writer.writerow(["timestamp", "head", "person"])
 
     async def receive(self):
         return await self.consumer.get()
@@ -87,6 +93,13 @@ class MyFogInference (Producer, CsvLogging):
                 person = 0
 
             final_result = str({"head" : head, "person" : person})
+
+            with open('inference_result.csv', 'a', encoding='UTF8') as f:
+                writer = csv.writer(f)
+
+                timestamp = datetime.datetime.now()
+                data = [timestamp, head, person]
+                writer.writerow(data)
 
             return final_result
 
