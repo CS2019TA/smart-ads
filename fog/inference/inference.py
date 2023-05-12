@@ -54,7 +54,7 @@ class MyFogInference (Producer, CsvLogging):
             self.counter = 0
             final_result = self.inference(data)
 
-        elif (cpu < 80.0):
+        else:
             if (self.counter % 2 == 0):
                 self.producer_topic = 'forward'
                 final_result = data
@@ -63,11 +63,6 @@ class MyFogInference (Producer, CsvLogging):
             else:
                 self.counter = 0
                 final_result = self.inference(data)
-
-        else :
-            self.producer_topic = 'forward'
-            self.counter = 0
-            final_result = data
 
         return final_result
 
