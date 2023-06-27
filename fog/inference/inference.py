@@ -50,13 +50,13 @@ class MyFogInference (Producer, CsvLogging):
         cpu = psutil.cpu_percent()
         final_result = ''
 
-        if (cpu < 60.0):
+        if (cpu < 00.0):
             self.counter = 0
             final_result = self.inference(data)
 
         else:
             if (self.counter % 2 == 0):
-                self.producer_topic = 'forward'
+                self.producer_topic = self.message.topic
                 final_result = data
                 self.counter += 1
 

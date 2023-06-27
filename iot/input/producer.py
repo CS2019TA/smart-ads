@@ -43,7 +43,7 @@ class ProducerTemplates(CsvLogging, Producer):
 
 class MyProducer(ProducerTemplates):
     def __init__(self, consumer, loop=None):
-        self.producer_servers = '10.119.81.52'
+        self.producer_servers = '0.0.0.0' # local/fog kafka ip address
         super().__init__(consumer, loop)
 
 async def main():

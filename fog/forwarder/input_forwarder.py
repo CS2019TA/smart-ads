@@ -14,7 +14,7 @@ class MyInputForwarder(Producer, CsvLogging):
     def __init__(self, consumer, loop=None):
         self.consumer = consumer
         self.producer_topic = 'cloud-input'
-        self.producer_servers = '34.101.83.51' # cloud kafka ip address
+        self.producer_servers = '0.0.0.0' # cloud kafka ip address
         CsvLogging.__init__(self)
         Producer.__init__(self, loop=loop)
 
