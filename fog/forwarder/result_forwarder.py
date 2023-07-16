@@ -3,17 +3,19 @@ import asyncio
 from fogverse import Producer, Consumer, ConsumerStorage
 from fogverse.logging import CsvLogging
 
+
 class MyStorage(Consumer, ConsumerStorage):
     def __init__(self):
-        self.consumer_servers = '0.0.0.0' # cloud kafka ip address
+        self.consumer_servers = '0.0.0.0'  # cloud kafka ip address
         self.consumer_topic = 'cloud-result'
         Consumer.__init__(self)
         ConsumerStorage.__init__(self)
 
-class MyInputForwarder(Producer, CsvLogging):
+
+class MyResultForwarder(Producer, CsvLogging):
     def __init__(self, consumer, loop=None):
         self.consumer = consumer
-        self.producer_servers = '0.0.0.0' # fog kafka ip address
+        self.producer_servers = '0.0.0.0'  # fog kafka ip address
         CsvLogging.__init__(self)
         Producer.__init__(self, loop=loop)
 
@@ -25,8 +27,9 @@ class MyInputForwarder(Producer, CsvLogging):
         headers = self.message.headers
         await super().send(data, headers=headers)
 
+
 async def main():
-    _Consumer, _Producer = (MyStorage, MyInputForwarder)
+    _Consumer, _Producer = (MyStorage, MyResultForwarder)
     consumer = _Consumer()
     producer = _Producer(consumer)
     tasks = [consumer.run(), producer.run()]
