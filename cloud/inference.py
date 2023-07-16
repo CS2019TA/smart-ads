@@ -8,30 +8,32 @@ from fogverse.logging.logging import CsvLogging
 dir = "/home/dionisius_baskoro/smart-ads"
 
 MODEL = [{
-        "weight" : f"{dir}/yolov5-6.0/yolo5-crowdhuman.pt",
-        "yolo" : f"{dir}/yolov5-6.0/"
-        },
-        {
-        "weight" : f"{dir}/yolov7/yolo7-crowdhuman.pt",
-        "yolo" : f"{dir}/yolov7/"
-        },
-        {
-        "weight" : f"{dir}/yolov7/yolo7tiny-crowdhuman.pt",
-        "yolo" : f"{dir}/yolov7/"
-        }]
+    "weight": f"{dir}/yolov5-6.0/yolo5-crowdhuman.pt",
+    "yolo": f"{dir}/yolov5-6.0/"
+},
+    {
+    "weight": f"{dir}/yolov7/yolo7-crowdhuman.pt",
+        "yolo": f"{dir}/yolov7/"
+},
+    {
+    "weight": f"{dir}/yolov7/yolo7tiny-crowdhuman.pt",
+        "yolo": f"{dir}/yolov7/"
+}]
+
 
 class MyStorage (Consumer, ConsumerStorage):
     def __init__(self, keep_messages=False):
-        self.consumer_servers = '0.0.0.0' # cloud kafka ip address
+        self.consumer_servers = '0.0.0.0'  # cloud kafka ip address
         self.consumer_topic = ['cloud-input']
         Consumer.__init__(self)
         ConsumerStorage.__init__(self, keep_messages=keep_messages)
+
 
 class MyCloudInference (Producer, CsvLogging):
     def __init__(self, consumer):
         self.consumer = consumer
         self.producer_topic = 'cloud-result'
-        self.producer_servers = '0.0.0.0' # cloud kafka ip address
+        self.producer_servers = '0.0.0.0'  # cloud kafka ip address
         self.model = torch.hub.load(MODEL[0]["yolo"], 'custom', MODEL[0]["weight"],
                                     source='local', force_reload=True)
         CsvLogging.__init__(self)
@@ -52,28 +54,30 @@ class MyCloudInference (Producer, CsvLogging):
         self.model.classes = 1
         inference_results = self.model(data)
         try:
-            head = inference_results.pandas().xyxy[0].value_counts('name').sort_index()[0]
+            head = inference_results.pandas().xyxy[0].value_counts(
+                'name').sort_index()[0]
         except IndexError:
             head = 0
 
         try:
-            person = inference_results.pandas().xyxy[0].value_counts('name').sort_index()[1]
+            person = inference_results.pandas().xyxy[0].value_counts(
+                'name').sort_index()[1]
         except IndexError:
             person = 0
 
-        final_result = str({"head" : head, "person" : person})
-
+        final_result = str({"head": head, "person": person})
 
         return final_result
 
     async def process(self, data):
         return await self._loop.run_in_executor(None,
-                                               self._process,
-                                               data)
+                                                self._process,
+                                                data)
 
     async def send(self, data):
         headers = self.message.headers
         await super().send(data, headers=headers)
+
 
 async def main():
     _Consumer, _Producer = (MyStorage, MyCloudInference)
