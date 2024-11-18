@@ -24,7 +24,7 @@ async def consume():
     await consumer.start()
     try:
         async for msg in consumer:
-            message = json.loads(msg.value.decode("utf-8").replace("\'", "\""))
+            message =  json.loads(msg.value.decode("utf-8").replace("\'", "\""))
             data["ads"] = message["video"]
             data["topic"] = message["topic"]
             data["timestamp"] = msg.headers[1][1].decode('utf-8')

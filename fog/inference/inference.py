@@ -34,7 +34,7 @@ class MyFogInference (Producer, CsvLogging):
         self.producer_topic = 'fog-result'
         self.producer_servers = '0.0.0.0'
         self.counter = 0
-        self.model = torch.hub.load(MODEL[0]["yolo"], 'custom', MODEL[0]["weight"],
+        self.model = torch.hub.load(MODEL[2]["yolo"], 'custom', MODEL[2]["weight"],
                                     source='local', force_reload=True)
         CsvLogging.__init__(self)
         Producer.__init__(self)
@@ -75,6 +75,7 @@ class MyFogInference (Producer, CsvLogging):
 
             # image inference
             inference_results = self.model(data)
+            # inference_results.save()
 
             # get inference result
             try:

@@ -9,9 +9,9 @@ class MyStorage(OpenCVConsumer, ConsumerStorage):
     def __init__(self):
         OpenCVConsumer.__init__(self)
         ConsumerStorage.__init__(self)
-        self.consumer.set(cv2.CAP_PROP_FRAME_WIDTH, 680)
-        self.consumer.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
-        self.consumer.set(cv2.CAP_PROP_FPS, 5)
+        # self.consumer.set(cv2.CAP_PROP_FRAME_WIDTH, 680)
+        # self.consumer.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+        # self.consumer.set(cv2.CAP_PROP_FPS, 5)
 
 class ProducerTemplates(CsvLogging, Producer):
     def __init__(self, consumer, loop=None):
