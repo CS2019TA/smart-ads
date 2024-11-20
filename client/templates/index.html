@@ -82,7 +82,7 @@
       const getDelay = (timestamp) => {
         const tsCreated = convertTZ(timestamp);
         const now = new Date();
-        const delay = Math.abs(now - tsCreated - 7 * 60 * 60 * 1000);
+        const delay = Math.abs(now - tsCreated - 9 * 60 * 60 * 1000);
 
         return delay;
       };
